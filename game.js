@@ -30,35 +30,72 @@ let scoreRegistered=false,resultTimer=null,semiTimer=null;
 const times=["10:00","10:45","11:30","12:15","13:00","14:00","15:00","16:00","17:00","17:35","18:00"];
 
 function buildDay(){
- const day=[
-  {at:0,type:"ambient",who:"おじいさん",text:"さて、今日もぼちぼちやるかの。",sound:"furin"},
-  {at:1,type:"order",visitor:"boy",who:"小学生",text:"おじちゃん！ いちごひとつ！",flavor:"strawberry"},
-  {at:2,type:"ambient",who:"おじいさん",text:"今日も暑くなりそうじゃ。",sound:"semi"},
-  {at:3,type:"choiceOrder",visitor:"girl",who:"小学生",text:"100円しかないけど、かき氷食べたい…。",
+ const opening={at:0,type:"ambient",who:"おじいさん",text:"さて、今日もぼちぼちやるかの。",sound:"furin"};
+
+ const morningCustomers=[
+  {type:"order",visitor:"boy",who:"小学生",text:"おじちゃん！ いちごひとつ！",flavor:"strawberry"},
+  {type:"order",visitor:"girl",who:"小学生",text:"メロンください！",flavor:"melon"},
+  {type:"talkOrder",visitor:"oldwoman",who:"常連のおばあさん",text:"朝から暑いねぇ。",reply:"朝の宇治金時も悪くないぞ。",flavor:"ujikintoki"}
+ ];
+ const morningBreaks=[
+  {type:"ambient",who:"おじいさん",text:"今日も暑くなりそうじゃ。",sound:"semi"},
+  {type:"ambient",who:"おじいさん",text:"風鈴がよう鳴るのう。",sound:"furin"},
+  {type:"ambient",who:"おじいさん",text:"まだ午前じゃというのに暑いわい。"},
+  {type:"ambient",visitor:"cat",who:"おじいさん",text:"おや、猫か。涼しいところをよう知っとる。"}
+ ];
+ const noonCustomers=[
+  {type:"choiceOrder",visitor:"girl",who:"小学生",text:"100円しかないけど、かき氷食べたい…。",
    options:[
     {label:"小さいのを作る",price:100,goodwill:1,reply:"ほい。100円分じゃ。",flavor:"strawberry"},
     {label:"普通のを作ってやる",price:100,goodwill:3,reply:"内緒じゃぞ。",flavor:"strawberry"},
     {label:"今日は200円じゃ",price:0,goodwill:-1,reply:"また小銭を握っておいで。",flavor:null}
    ]},
-  {at:4,type:"talkOrder",visitor:"oldwoman",who:"常連のおばあさん",text:"暑いねぇ。今日はほんとに暑い。",reply:"まあ、宇治金時でも食べていきなされ。",flavor:"ujikintoki"},
-  {at:5,type:"ambient",visitor:"cat",who:"おじいさん",text:"また猫が来たか。そこが涼しいんじゃろ。"},
-  {at:6,type:"order",visitor:"boy",who:"小学生",text:"今日はメロン！ 山盛りで！",flavor:"melon"},
-  {at:7,type:"ambient",who:"おじいさん",text:"風が少し出てきたのう。",sound:"furin"},
-  {at:8,type:"order",visitor:"worker",who:"会社員",text:"まだやってます？ ブルーハワイをひとつ。",flavor:"blue"}
+  {type:"order",visitor:"boy",who:"小学生",text:"ブルーハワイってどんな味？ それにする！",flavor:"blue"},
+  {type:"talkOrder",visitor:"oldwoman",who:"常連のおばあさん",text:"暑いねぇ。今日はほんとに暑い。",reply:"まあ、宇治金時でも食べていきなされ。",flavor:"ujikintoki"}
  ];
- if(Math.random()<.45){
-  day.push({at:9,type:"rare",visitor:"adult",lines:[
-   ["男性","おじさん、まだこの店やってたんですね。"],
-   ["おじいさん","……誰じゃったかの？"],
-   ["男性","子どものころ、毎週ここで宇治金時を食べてました。"]
-  ]});
- }else{
-  day.push({at:9,type:"ambient",who:"おじいさん",text:"西日がまぶしいのう。そろそろ店じまいじゃ。"});
- }
- day.push({at:10,type:"close",who:"おじいさん",text:"さて、今日はここまでじゃ。"});
- return day;
-}
+ const afternoonCustomers=[
+  {type:"order",visitor:"boy",who:"小学生",text:"今日はメロン！ 山盛りで！",flavor:"melon"},
+  {type:"order",visitor:"girl",who:"小学生",text:"いちご、ふわふわにして！",flavor:"strawberry"},
+  {type:"order",visitor:"oldwoman",who:"常連のおばあさん",text:"いつもの宇治金時をひとつ。",flavor:"ujikintoki"},
+  {type:"order",visitor:"boy",who:"小学生",text:"青いやつ！ ブルーハワイ！",flavor:"blue"}
+ ];
+ const afternoonBreaks=[
+  {type:"ambient",who:"おじいさん",text:"風が少し出てきたのう。",sound:"furin"},
+  {type:"ambient",who:"おじいさん",text:"氷もだいぶ減ってきたわい。"},
+  {type:"ambient",who:"おじいさん",text:"セミはまだ元気じゃのう。",sound:"semi"},
+  {type:"ambient",visitor:"cat",who:"おじいさん",text:"また来たんか。今日は一日ここにおる気かの。"}
+ ];
+ const eveningCustomers=[
+  {type:"order",visitor:"worker",who:"会社員",text:"まだやってます？ ブルーハワイをひとつ。",flavor:"blue"},
+  {type:"order",visitor:"worker",who:"会社員",text:"仕事帰りに、いちごをひとつお願いします。",flavor:"strawberry"},
+  {type:"order",visitor:"adult",who:"男性",text:"久しぶりに宇治金時、ひとつお願いします。",flavor:"ujikintoki"},
+  {type:"order",visitor:"girl",who:"小学生",text:"間に合った！ 最後にメロンひとつ！",flavor:"melon"}
+ ];
+ const eveningMoments=[
+  {type:"ambient",who:"おじいさん",text:"西日がまぶしいのう。そろそろ店じまいじゃ。"},
+  {type:"ambient",who:"おじいさん",text:"今日もよう削ったのう。"},
+  {type:"rare",visitor:"adult",lines:[
+    ["男性","おじさん、まだこの店やってたんですね。"],
+    ["おじいさん","……誰じゃったかの？"],
+    ["男性","子どものころ、ここでよく食べてました。"]
+  ]}
+ ];
 
+ const choose=a=>({...a[Math.floor(Math.random()*a.length)]});
+ const q=[
+  opening,
+  {...choose(morningCustomers),at:1},
+  {...choose(morningBreaks),at:2},
+  {...choose(noonCustomers),at:3},
+  {...choose(afternoonCustomers),at:5},
+  {...choose(afternoonBreaks),at:6},
+  {...choose(afternoonCustomers),at:7},
+  {...choose(eveningCustomers),at:8},
+  {...choose(eveningMoments),at:9},
+  {at:10,type:"close",who:"おじいさん",text:"さて、今日はここまでじゃ。"}
+ ];
+ return q;
+}
 function show(name){Object.values(screens).forEach(s=>s.classList.remove("active"));screens[name].classList.add("active")}
 function play(a,vol,restart=true){try{a.volume=vol;if(restart)a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
 function stop(a){try{a.pause();a.currentTime=0}catch(e){}}
@@ -182,10 +219,26 @@ function drawShave(){
  sx.fillStyle="#fff2cf";sx.beginPath();sx.moveTo(142,190);sx.lineTo(278,190);sx.lineTo(257,230);sx.lineTo(164,230);sx.closePath();sx.fill();sx.stroke();
  const levels=Math.floor(amount*11);sx.fillStyle="#f4ffff";sx.strokeStyle="#799a9b";sx.lineWidth=2;
  for(let i=0;i<levels;i++){const yy=186-i*10,half=Math.max(12,58-i*4)+(amount>1?Math.floor((amount-1)*35):0);sx.fillRect(210-half,yy-9,half*2,11);sx.strokeRect(210-half,yy-9,half*2,11)}
- if(syrupProgress>0&&currentOrder){
-  sx.fillStyle=currentOrder.color;const colored=Math.max(1,Math.floor(levels*syrupProgress));
-  for(let i=0;i<colored;i++){const yy=186-i*10,half=Math.max(10,52-i*4),ww=half*2*(.55+.35*syrupProgress);sx.fillRect(210-ww/2,yy-8,ww,7)}
-  if(currentOrder.beans&&syrupProgress>.55){sx.fillStyle="#6b3b2c";[[198,142],[215,149],[225,137],[207,129],[190,153]].forEach(p=>sx.fillRect(p[0],p[1],6,5))}
+ if(syrupProgress>0&&currentOrder&&levels>0){
+  sx.fillStyle=currentOrder.color;
+  const colored=Math.max(1,Math.floor(levels*syrupProgress));
+  /* 山頂（大きいi）から下段（小さいi）へ染み込ませる */
+  for(let n=0;n<colored;n++){
+   const i=(levels-1)-n;
+   if(i<0)break;
+   const yy=186-i*10,half=Math.max(10,52-i*4),spread=.48+.42*syrupProgress;
+   const ww=half*2*spread;
+   sx.fillRect(210-ww/2,yy-8,ww,7);
+  }
+  /* 上から垂れる細いシロップ筋 */
+  const topY=186-(levels-1)*10-14;
+  const dripLen=Math.min(38,8+Math.floor(syrupProgress*34));
+  sx.fillRect(205,Math.max(48,topY-dripLen),5,dripLen);
+  sx.fillRect(216,Math.max(52,topY-dripLen+7),4,Math.max(5,dripLen-7));
+  if(currentOrder.beans&&syrupProgress>.55){
+   sx.fillStyle="#6b3b2c";
+   [[205,topY+12],[216,topY+18],[198,topY+23],[224,topY+27],[211,topY+31]].forEach(p=>sx.fillRect(p[0],p[1],6,5));
+  }
  }
 }
 function drawCollapse(){sx.fillStyle="#f5ffff";for(let i=0;i<28;i++)sx.fillRect(120+Math.random()*170,130+Math.random()*90,5+Math.random()*8,5+Math.random()*7)}
@@ -209,7 +262,7 @@ registerButton.onclick=async()=>{
  if(error){console.error(error);registerButton.disabled=false;registerButton.textContent="記録を登録";alert("登録に失敗しました");return}
  scoreRegistered=true;registerButton.textContent="登録済み";alert("記録を登録しました！");
 };
-$("#retryButton").onclick=start;
+$("#retryButton").onclick=()=>{stopAll();reset();show("title")};
 $("#arcadeButton").onclick=()=>location.href=ARCADE_URL;
 $("#startBtn").onclick=start;
 $("#backBtn").onclick=()=>{stopAll();show("title")};
