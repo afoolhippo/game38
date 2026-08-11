@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>かき氷じいさん</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app">
+<section id="titleScreen" class="screen active">
+  <img src="title.png" class="title-image" alt="かき氷じいさん">
+  <p class="lead">昔ながらのかき氷屋で<br>夏の一日を過ごそう。</p>
+  <button id="startBtn" class="pixel-btn primary">タップして開店</button>
+</section>
+
+<section id="gameScreen" class="screen">
+  <header class="hud">
+    <span>時刻 <b id="clock">10:00</b></span>
+    <span>売上 <b id="money">0</b>円</span>
+    <span>かき氷 <b id="cups">0</b>杯</span>
+  </header>
+  <button id="backBtn" class="back-btn">タイトルへ</button>
+
+  <div id="sceneWrap">
+    <canvas id="scene" width="320" height="350"></canvas>
+    <img id="grandpa" src="grandpa.png" alt="">
+    <img id="visitorImage" class="visitor-image hidden" alt="">
+  </div>
+
+  <div id="dialogueBox" role="button" tabindex="0">
+    <div id="speaker">おじいさん</div>
+    <div id="dialogue">今日も暑くなりそうじゃ。</div>
+    <div id="nextMark">▼</div>
+  </div>
+  <div id="firstHint">会話欄をタップして進む</div>
+  <div id="choices" class="choices hidden"></div>
+
+  <div id="shavePanel" class="shave-panel hidden">
+    <div class="mini-title">かき氷をつくろう</div>
+    <canvas id="shaveCanvas" width="300" height="250"></canvas>
+    <div id="shaveHint">長押しで氷を削ろう</div>
+    <button id="shaveBtn" class="pixel-btn shave-btn">長押しで削る</button>
+  </div>
+</section>
+
+<section id="resultScreen" class="screen">
+ <div class="result-card">
+   <h1>本日の営業終了</h1>
+   <canvas id="resultCanvas" width="300" height="115"></canvas>
+   <h2>きょうの一日</h2>
+   <p>売上　<strong><span id="resultMoney">0</span>円</strong></p>
+   <p>かき氷　<strong><span id="resultCups">0</span>杯</strong></p>
+   <div id="resultQuote"></div>
+   <button id="againBtn" class="pixel-btn primary">もう一日</button>
+   <button id="homeBtn" class="pixel-btn">タイトルへ戻る</button>
+ </div>
+</section>
+</main>
+
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+<audio id="furin" src="furin.mp3" preload="auto"></audio>
+<audio id="semi" src="semi.mp3" preload="auto"></audio>
+<audio id="shaveSound" src="shave.mp3" loop preload="auto"></audio>
+
+<script src="game.js"></script>
+</body>
+</html>
