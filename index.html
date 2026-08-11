@@ -24,22 +24,20 @@
     <span>かき氷 <b id="cups">0</b>杯</span>
   </header>
   <button id="backBtn" class="back-btn">タイトルへ</button>
-
   <div id="sceneWrap">
     <canvas id="scene" width="320" height="350"></canvas>
     <img id="grandpa" src="grandpa.png" alt="">
-    <img id="visitorImage" class="visitor-image hidden" alt="">
+    <img id="visitorImage" class="visitor-image hidden-char" alt="">
   </div>
-
   <div id="dialogueBox" role="button" tabindex="0">
     <div id="speaker">おじいさん</div>
     <div id="dialogue">今日も暑くなりそうじゃ。</div>
     <div id="nextMark">▼</div>
   </div>
   <div id="firstHint">会話欄をタップして進む</div>
-  <div id="choices" class="choices hidden"></div>
+  <div id="choices" class="choices hide"></div>
 
-  <div id="shavePanel" class="shave-panel hidden">
+  <div id="shavePanel" class="shave-panel hide">
     <div class="mini-title">かき氷をつくろう</div>
     <div id="orderLabel" class="order-label"></div>
     <canvas id="shaveCanvas" width="300" height="250"></canvas>
@@ -49,16 +47,23 @@
 </section>
 
 <section id="resultScreen" class="screen">
- <div class="result-card">
-   <h1>本日の営業終了</h1>
-   <canvas id="resultCanvas" width="300" height="115"></canvas>
-   <h2>きょうの一日</h2>
-   <p>売上　<strong><span id="resultMoney">0</span>円</strong></p>
-   <p>かき氷　<strong><span id="resultCups">0</span>杯</strong></p>
-   <div id="resultQuote"></div>
-   <button id="againBtn" class="pixel-btn primary">もう一日</button>
-   <button id="homeBtn" class="pixel-btn">タイトルへ戻る</button>
- </div>
+  <div class="result-card">
+    <h1>本日の営業終了</h1>
+    <img src="result.png" class="result-image" alt="営業を終えたかき氷屋">
+    <div class="score-label">本日の売上</div>
+    <div class="score-value"><span id="resultMoney">0</span><small>円</small></div>
+    <div class="result-sub">かき氷 <span id="resultCups">0</span>杯</div>
+    <div class="grandpa-comment">
+      <span>おじいさん</span>
+      <p id="resultQuote">今日もよう削ったのう。</p>
+    </div>
+    <div id="resultButtons" class="resultButtons hidden">
+      <button id="shareButton" class="resultButton">Xでシェア</button>
+      <button id="registerButton" class="resultButton">記録を登録</button>
+      <button id="retryButton" class="resultButton">もう1回遊ぶ</button>
+      <button id="arcadeButton" class="resultButton">カバゲーセンへ</button>
+    </div>
+  </div>
 </section>
 </main>
 
@@ -67,6 +72,7 @@
 <audio id="semi" src="semi.mp3" preload="auto"></audio>
 <audio id="shaveSound" src="shave.mp3" loop preload="auto"></audio>
 
-<script src="game.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="game.js?v=20260811-1"></script>
 </body>
 </html>
