@@ -15,8 +15,15 @@ button{font:inherit;color:inherit}
 #sceneWrap{position:relative;height:min(47vh,380px);min-height:315px;border-bottom:4px solid var(--ink);overflow:hidden}
 #scene{display:block;width:100%;height:100%;image-rendering:pixelated}
 #grandpa{position:absolute;z-index:3;left:7%;bottom:15px;width:31%;max-width:150px;image-rendering:pixelated;filter:drop-shadow(3px 4px 0 #0003)}
-.visitor-image{position:absolute;z-index:4;right:7%;bottom:17px;max-width:34%;max-height:66%;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(3px 4px 0 #0003)}
-.visitor-image.animal{right:8%;bottom:28px;max-width:31%;max-height:36%}
+.visitor-image{position:absolute;z-index:4;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(3px 4px 0 #0003);opacity:1;transition:opacity .25s ease,transform .25s ease}
+.visitor-image.fade{opacity:0;transform:translateY(4px)}
+.visitor-image[data-char="boy"]{right:9%;bottom:20px;width:25%;max-height:58%}
+.visitor-image[data-char="girl"]{right:9%;bottom:20px;width:25%;max-height:58%}
+.visitor-image[data-char="oldwoman"]{right:7%;bottom:18px;width:30%;max-height:64%}
+.visitor-image[data-char="worker"]{right:5%;bottom:16px;width:31%;max-height:66%}
+.visitor-image[data-char="adult"]{right:5%;bottom:16px;width:31%;max-height:66%}
+.visitor-image[data-char="dog"]{right:9%;bottom:28px;width:24%;max-height:34%}
+.visitor-image[data-char="cat"]{right:9%;bottom:27px;width:29%;max-height:31%}
 #dialogueBox{position:relative;margin:9px 10px 2px;min-height:112px;padding:10px 35px 17px 12px;background:#fff8dd;border:4px solid var(--ink);cursor:pointer;user-select:none;-webkit-user-select:none}
 #speaker{font-size:14px;font-weight:bold;border-bottom:2px dotted #8d725c;padding-bottom:4px;margin-bottom:7px}
 #dialogue{font-size:17px;line-height:1.55}
@@ -26,7 +33,8 @@ button{font:inherit;color:inherit}
 .choices{padding:4px 10px 14px}.hidden{display:none!important}
 .choice-btn{display:block;width:100%;padding:10px;margin:7px 0;border:3px solid var(--ink);background:#e8f0c9;box-shadow:0 3px 0 var(--ink);text-align:left;font:inherit}
 .shave-panel{position:absolute;z-index:50;top:68px;left:9px;right:9px;padding:9px;background:#fff3ca;border:4px solid var(--ink);box-shadow:0 8px 0 #0005;text-align:center}
-.mini-title{font-size:20px;margin-bottom:5px}
+.mini-title{font-size:20px;margin-bottom:3px}
+.order-label{font-size:14px;margin-bottom:6px}
 #shaveCanvas{display:block;width:100%;max-width:350px;height:auto;margin:auto;border:3px solid var(--ink);background:#bce0dc;image-rendering:pixelated}
 #shaveHint{min-height:38px;padding:7px 2px 2px;font-size:14px}
 .shave-btn{background:#d9eff4;font-size:18px;touch-action:none;user-select:none;-webkit-user-select:none}
