@@ -99,7 +99,7 @@ function buildDay(){
 function show(name){Object.values(screens).forEach(s=>s.classList.remove("active"));screens[name].classList.add("active")}
 function play(a,vol,restart=true){try{a.volume=vol;if(restart)a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
 function stop(a){try{a.pause();a.currentTime=0}catch(e){}}
-function startBgm(){bgm.loop=true;play(bgm,.085,false)}
+function startBgm(){bgm.loop=true;play(bgm,.15,false)}
 function stopAll(){[bgm,furin,semi,shaveSound].forEach(stop);clearTimeout(semiTimer)}
 function shortSemi(){stop(semi);play(semi,.26);clearTimeout(semiTimer);semiTimer=setTimeout(()=>stop(semi),2800)}
 function sceneSound(s){if(s==="furin")play(furin,.40);if(s==="semi")shortSemi()}
